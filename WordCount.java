@@ -28,10 +28,8 @@ public class WordCount {
 		JavaSparkContext sc = new JavaSparkContext(sparkConf);
 		
 		JavaRDD<String> input = sc.parallelize(data);
-		JavaPairRDD<String, Integer> result = input
-				.flatMap(in -> Arrays.asList(in.split(" ")))
-				.mapToPair(x -> new Tuple2<String, Integer>(x,1))
-				.reduceByKey( (x,y) -> x+y );
+		JavaPairRDD<String, Integer> result = input.flatMap(in -> Arrays.asList(in.split(" ")).iterator()).mapToPair(x -> new Tuple2<String, Integer>(x,1)).reduceByKey( (x,y) -> x+y );
+		
 				
 		System.out.println("**************************************");
 		System.out.println(result.collect());
